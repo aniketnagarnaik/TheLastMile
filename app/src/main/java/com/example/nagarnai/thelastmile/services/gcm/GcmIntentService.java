@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -32,19 +33,37 @@ public class GcmIntentService extends GcmListenerService {
         //Getting the message from the bundle
         String message = data.getString("message");
         Log.d("MessageReceived", message);
-        //Displaying a notiffication with the message
-        createDeliveryNotification();
+        try {
+            JSONObject jo = new JSONObject(message);
+            if(jo.getString("type").equals("outfordelivery")) {
+                createDeliveryNotification();
+            } else {
+                double lat = jo.getDouble("latitude");
+                double lon = jo.getDouble("longitude");
+                publishLocationUpdate(lat, lon);
+            }
+        } catch (Exception e) {
+            Log.i("FATAL", "JSON PARSE ERROR");
+        }
+    }
+
+    private void publishLocationUpdate(double lat, double lon) {
+        Intent locationUpdate = new Intent("location");
+        locationUpdate.putExtra("LONGITUDE", lon);
+        locationUpdate.putExtra("LATITUDE", lat);
+        Log.i("Broadcast", "Sent");
+        LocalBroadcastManager.getInstance(this).sendBroadcast(locationUpdate);
     }
 
     private void createDeliveryNotification() {
 
         Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.setAction("address");
+        intent.setAction("mylocation");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getService(this, 0, intent , PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent intent2 = new Intent(this, NotificationReceiver.class);
-        intent2.setAction("mylocation");
+        intent2.setAction("address");
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent2 = PendingIntent.getService(this, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -57,7 +76,7 @@ public class GcmIntentService extends GcmListenerService {
                 .setContentTitle("Last mile")
                 .setContentText("Bata yaar kya karna hai")
                 .setSmallIcon(R.drawable.cast_ic_notification_small_icon)
-                .setStyle(new Notification.BigTextStyle().bigText("sfsdfd"))
+                .setStyle(new Notification.BigTextStyle().bigText("Your package will be delivered tomorrow"))
                 .addAction(R.mipmap.ic_launcher, "Deliver to Me", contentIntent)
                 .addAction(R.mipmap.ic_launcher, "Deliver tomorrow", contentIntent2)
                 .addAction(R.mipmap.ic_launcher, "Do nothing", contentIntent3)

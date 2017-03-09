@@ -3,8 +3,10 @@ package com.example.nagarnai.thelastmile.activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -16,6 +18,7 @@ import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 public class DALocationActivity extends FragmentActivity implements OnMapReadyCallback {
@@ -23,6 +26,8 @@ public class DALocationActivity extends FragmentActivity implements OnMapReadyCa
     private GoogleMap mMap;
     private double longitude;
     private double latitude;
+    private BroadcastReceiver br;
+    private Marker associate = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +39,25 @@ public class DALocationActivity extends FragmentActivity implements OnMapReadyCa
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
-        new BroadcastReceiver() {
+        br = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 String action = intent.getAction();
-                if(action.equals("location")) {
-                    longitude = getIntent().getExtras().getDouble("LONGITUDE");
-                    latitude = getIntent().getExtras().getDouble("LATITUDE");
-
-                    final LatLng latlng = new LatLng(latitude, longitude);
-                    final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address");
-                    mMap.addMarker(markerOptions).remove();
-                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14.0f));
+                Log.i("Received", intent.getAction());
+                longitude = intent.getExtras().getDouble("LONGITUDE");
+                latitude = intent.getExtras().getDouble("LATITUDE");
+                Log.i("GotLocation", "location: "+latitude + " "+ longitude);
+                final LatLng latlng = new LatLng(latitude, longitude);
+                final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address");
+                if(associate!=null) {
+                    associate.remove();
                 }
+                associate = mMap.addMarker(markerOptions);
+                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14.0f));
             }
         };
+        LocalBroadcastManager.getInstance(this).registerReceiver(br,
+                new IntentFilter("location"));
     }
 
     /**

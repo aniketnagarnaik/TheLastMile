@@ -22,7 +22,7 @@ public class NotificationReceiver extends IntentService {
             return;
         } else if(intent.getAction().equals("mylocation")) {
             // TODO: pass longitude and latitude.
-            Intent newIntent = new Intent(getBaseContext(), MapsActivity.class);
+            Intent newIntent = new Intent(getBaseContext(), DALocationActivity.class);
             newIntent.putExtra("LONGITUDE", 77.688716);
             newIntent.putExtra("LATITUDE", 12.982653);
             startActivity(newIntent);

@@ -86,12 +86,12 @@ public class MainActivity extends AppCompatActivity {
     private void createNotification() {
 
         Intent intent = new Intent(this, NotificationReceiver.class);
-        intent.setAction("address");
+        intent.setAction("mylocation");
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent = PendingIntent.getService(this, 0, intent , PendingIntent.FLAG_CANCEL_CURRENT);
 
         Intent intent2 = new Intent(this, NotificationReceiver.class);
-        intent2.setAction("mylocation");
+        intent2.setAction("address");
         intent2.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent contentIntent2 = PendingIntent.getService(this, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
 
@@ -104,10 +104,10 @@ public class MainActivity extends AppCompatActivity {
                 .setContentTitle("Last mile")
                 .setContentText("Bata yaar kya karna hai")
                 .setSmallIcon(R.drawable.cast_ic_notification_small_icon)
-                .setStyle(new Notification.BigTextStyle().bigText("sfsdfd"))
-                .addAction(R.mipmap.ic_launcher, "Call", contentIntent)
-                .addAction(R.mipmap.ic_launcher, "More", contentIntent2)
-                .addAction(R.mipmap.ic_launcher, "Else", contentIntent3)
+                .setStyle(new Notification.BigTextStyle().bigText("Your package will be delivered tomorrow"))
+                .addAction(R.mipmap.ic_launcher, "Deliver to Me", contentIntent)
+                .addAction(R.mipmap.ic_launcher, "Deliver tomorrow", contentIntent2)
+                .addAction(R.mipmap.ic_launcher, "Do nothing", contentIntent3)
                 .build();
         NotificationManager notificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         notificationManager.notify(NOTIFICATION_ID, noti);
