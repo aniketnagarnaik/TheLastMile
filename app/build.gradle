@@ -18,6 +18,14 @@ android {
         }
     }
 }
+buildscript {
+    repositories {
+        jcenter()
+    }
+    dependencies {
+        classpath 'com.google.gms:google-services:3.0.0'
+    }
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -30,3 +38,5 @@ dependencies {
     compile 'com.google.android.gms:play-services:10.2.0'
     testCompile 'junit:junit:4.12'
 }
+
+apply plugin: 'com.google.gms.google-services'

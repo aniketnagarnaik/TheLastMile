@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "315345830032",
+    "firebase_url": "https://calm-acre-161013.firebaseio.com",
+    "project_id": "calm-acre-161013",
+    "storage_bucket": "calm-acre-161013.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:315345830032:android:abb7aaca54f5ed5e",
+        "android_client_info": {
+          "package_name": "com.example.nagarnai.thelastmile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "315345830032-3i3hjsmgjjt3230k3608jl05ikupm5um.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA1graHD89-mrDcKGgiZPK50Kt2Hbyk0b8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

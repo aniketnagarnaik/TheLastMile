@@ -2,14 +2,51 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.nagarnai.thelastmile">
 
+    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="17"/>
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <permission
+        android:name="com.example.nagarnai.thelastmile.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.nagarnai.thelastmile.permission.C2D_MESSAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <!--
+            GCM Receiver
+        -->
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+                <category android:name="com.gnirt69.gcmexample"/>
+            </intent-filter>
+        </receiver>
+
+        <!--
+            GCM Receiver Service
+        -->
+        <service android:name=".services.gcm.GcmIntentService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE"/>
+            </intent-filter>
+        </service>
+
+        <!--
+            GCM Registration Intent Service
+        -->
+        <service android:name=".services.gcm.GCMRegistrationIntentService" android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID"/>
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".activity.MainActivity"
             android:label="@string/title_activity_main"
@@ -19,10 +56,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".activity.NotificationReceiverActivity"
+        <service
+            android:name=".activity.NotificationReceiver"
             android:label="@string/title_activity_notification_receiver" >
-        </activity>
+        </service>
     </application>
 
 </manifest>
