@@ -2,4 +2,6 @@
     <string name="app_name">TheLastMile</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="title_activity_notification_receiver">The Last Mile</string>
+    <string name="title_activity_maps">Map</string>
+    <string name="title_activity_house">HouseActivity</string>
 </resources>

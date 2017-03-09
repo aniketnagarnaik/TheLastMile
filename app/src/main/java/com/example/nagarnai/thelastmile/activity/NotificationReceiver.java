@@ -10,8 +10,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-import com.example.nagarnai.thelastmile.R;
-
 public class NotificationReceiver extends IntentService {
 
     public NotificationReceiver() {
@@ -23,7 +21,11 @@ public class NotificationReceiver extends IntentService {
         if(intent.getAction().equals("address")) {
             return;
         } else if(intent.getAction().equals("mylocation")) {
-            // tarun
+            // TODO: pass longitude and latitude.
+            Intent newIntent = new Intent(getBaseContext(), MapsActivity.class);
+            newIntent.putExtra("LONGITUDE", 77.688716);
+            newIntent.putExtra("LATITUDE", 12.982653);
+            startActivity(newIntent);
         } else if(intent.getAction().equals("tomorrow")) {
             // ashruthi
         }
