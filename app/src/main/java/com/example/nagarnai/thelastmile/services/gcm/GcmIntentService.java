@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.example.nagarnai.thelastmile.activity.NotificationReceiver;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -30,6 +31,7 @@ public class GcmIntentService extends GcmListenerService {
     public void onMessageReceived(String from, Bundle data) {
         //Getting the message from the bundle
         String message = data.getString("message");
+        Log.d("MessageReceived", message);
         //Displaying a notiffication with the message
         createDeliveryNotification();
     }
