@@ -31,7 +31,8 @@ public class GcmIntentService extends GcmListenerService {
     @Override
     public void onMessageReceived(String from, Bundle data) {
         //Getting the message from the bundle
-        String message = data.getString("message");
+        Log.i("GGCM RECEIVED", data.toString());
+        String message = data.getString("gcm.notification.message");
         Log.d("MessageReceived", message);
         try {
             JSONObject jo = new JSONObject(message);
@@ -74,9 +75,9 @@ public class GcmIntentService extends GcmListenerService {
 
         Notification noti = new Notification.Builder(this)
                 .setContentTitle("Last mile")
-                .setContentText("Bata yaar kya karna hai")
+                .setContentText("Your package is out for delivery")
                 .setSmallIcon(R.drawable.cast_ic_notification_small_icon)
-                .setStyle(new Notification.BigTextStyle().bigText("Your package will be delivered tomorrow"))
+                .setStyle(new Notification.BigTextStyle().bigText("Your package is out for delivery"))
                 .addAction(R.mipmap.ic_launcher, "Deliver to Me", contentIntent)
                 .addAction(R.mipmap.ic_launcher, "Deliver tomorrow", contentIntent2)
                 .addAction(R.mipmap.ic_launcher, "Do nothing", contentIntent3)
