@@ -1,11 +1,19 @@
 package com.example.nagarnai.thelastmile.activity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.icu.text.RelativeDateTimeFormatter;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Display;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
 
 import com.example.nagarnai.thelastmile.R;
 import com.google.android.gms.maps.CameraUpdate;
@@ -13,6 +21,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -36,6 +45,9 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
+        RelativeLayout rl = (RelativeLayout) findViewById(R.id.relative_layout_map);
+        float centreX=rl.getX() + rl.getWidth()  / 2;
+        float centreY=rl.getY() + rl.getHeight() / 2;
         Button setLocationButton = (Button) findViewById(R.id.set_latlng);
         setLocationButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -46,6 +58,14 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 startActivity(intent);
             }
         });
+
+//        Canvas canvas = new Canvas();
+//        Paint paint = new Paint();
+//        paint.setStyle(Paint.Style.STROKE);
+//        canvas.drawCircle(centreX, centreY, 50, paint);
+//        Bitmap bitmap=Bitmap.createBitmap(440,587,Bitmap.Config.ARGB_8888);
+//        Canvas c=new Canvas(bitmap);
+//        tcanvas.draw(bitmap);
     }
 
     /**
@@ -63,9 +83,29 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
         // Add a marker in Sydney and move the camera
         final LatLng latlng = new LatLng(lastLatitude, lastLongitude);
-        final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("Marker in Sydney");
-        mMap.addMarker(markerOptions).remove();
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14.0f));
+        final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("Buyer location").draggable(true);
+        mMap.addMarker(markerOptions);
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 15.0f));
+        mMap.getUiSettings().setAllGesturesEnabled(false);
+        mMap.setOnMarkerDragListener(new GoogleMap.OnMarkerDragListener() {
+            @Override
+            public void onMarkerDragStart(Marker markerDragStart) {
+                Log.i("Marker drag", "start");
+            }
+
+            @Override
+            public void onMarkerDragEnd(Marker markerDragEnd) {
+                Log.i("Marker drag", "end");
+                LatLng latLng = markerDragEnd.getPosition();
+                longitude = latLng.longitude;
+                latitude = latLng.latitude;
+            }
+
+            @Override
+            public void onMarkerDrag(Marker markerDrag) {
+                Log.i("Marker drag", "drag");
+            }
+        });
         mMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
             @Override
             public void onCameraChange(CameraPosition cameraPosition) {

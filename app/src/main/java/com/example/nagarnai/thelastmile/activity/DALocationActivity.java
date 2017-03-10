@@ -16,6 +16,7 @@ import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
@@ -48,7 +49,8 @@ public class DALocationActivity extends FragmentActivity implements OnMapReadyCa
                 latitude = intent.getExtras().getDouble("LATITUDE");
                 Log.i("GotLocation", "location: "+latitude + " "+ longitude);
                 final LatLng latlng = new LatLng(latitude, longitude);
-                final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address");
+                final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address")
+                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
                 if(associate!=null) {
                     associate.remove();
                 }
@@ -75,7 +77,8 @@ public class DALocationActivity extends FragmentActivity implements OnMapReadyCa
 
         // Add a marker in Sydney and move the camera
         final LatLng latlng = new LatLng(latitude, longitude);
-        final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address");
+        final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address")
+                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.amazon_package));
         mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14.0f));
     }

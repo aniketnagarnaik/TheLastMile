@@ -8,6 +8,7 @@
     android:padding="10dp">
     <RelativeLayout android:layout_height="wrap_content"
         android:layout_weight="4"
+        android:id="@+id/relative_layout_map"
         android:layout_width="match_parent">
         <fragment
             android:id="@+id/map"
@@ -15,14 +16,24 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:context="com.example.nagarnai.thelastmile.activity.MapsActivity" />
+        <!--<ImageView-->
+            <!--android:id="@+id/confirm_address_map_custom_marker"-->
+            <!--android:layout_width="300px"-->
+            <!--android:layout_height="249px"-->
+            <!--android:paddingLeft="75px"-->
+            <!--android:paddingBottom="124.5px"-->
+            <!--android:layout_centerInParent="true"-->
+            <!--android:src="@mipmap/maps_pin" />-->
+        <!--<LinearLayout-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:background="@drawable/circle"-->
+            <!--android:padding="50dp" />-->
         <ImageView
-            android:id="@+id/confirm_address_map_custom_marker"
-            android:layout_width="300px"
-            android:layout_height="249px"
-            android:paddingLeft="75px"
-            android:paddingBottom="124.5px"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_centerInParent="true"
-            android:src="@mipmap/maps_pin" />
+            android:src="@drawable/circle"/>
     </RelativeLayout>
     <Button
         android:id="@+id/set_latlng"
