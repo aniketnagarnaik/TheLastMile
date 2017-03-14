@@ -50,12 +50,12 @@ public class DALocationActivity extends FragmentActivity implements OnMapReadyCa
                 Log.i("GotLocation", "location: "+latitude + " "+ longitude);
                 final LatLng latlng = new LatLng(latitude, longitude);
                 final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address")
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
+                        .icon(BitmapDescriptorFactory.fromResource(R.mipmap.amazon_package));
                 if(associate!=null) {
                     associate.remove();
                 }
                 associate = mMap.addMarker(markerOptions);
-                mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14.0f));
+                //mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14.0f));
             }
         };
         LocalBroadcastManager.getInstance(this).registerReceiver(br,
@@ -78,7 +78,7 @@ public class DALocationActivity extends FragmentActivity implements OnMapReadyCa
         // Add a marker in Sydney and move the camera
         final LatLng latlng = new LatLng(latitude, longitude);
         final MarkerOptions markerOptions = new MarkerOptions().position(latlng).title("DA's address")
-                .icon(BitmapDescriptorFactory.fromResource(R.mipmap.amazon_package));
+                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE));
         mMap.addMarker(markerOptions);
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latlng, 14.0f));
     }
